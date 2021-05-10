@@ -3,8 +3,10 @@
 
 #include <WiFi.h>
 
-const char* ssid = "Zhone_5A46";
-const char* password =  "znid309132614";
+// const char* ssid = "Zhone_5A46";
+// const char* password =  "znid309132614";
+const char* ssid = "vai colocar credito";
+const char* password =  "caldicana";
 
 void connectToWiFi() {
   Serial.print("Conectando a ");
