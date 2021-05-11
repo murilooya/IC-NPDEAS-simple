@@ -4,8 +4,9 @@
 #include <Arduino.h>
 #include <string.h>
 
-String jsonMaker(String _type, String _value){
-    
+String toString(float _type){
+    String _str = std::to_string(_type);
+    return _str;
 }
 
 
