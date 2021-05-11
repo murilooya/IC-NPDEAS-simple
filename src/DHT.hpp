@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include "Adafruit_Sensor.h"
 #include "DHT.h"
+#include "JsonMaker.hpp"
 
 class DHTSensor{
     public:
@@ -19,13 +20,17 @@ class DHTSensor{
                 Serial.println(F("Failed to read from DHT sensor!"));
                 return;
             };
-            printTemperature();
-            printHumidity();
+            str_temperature = toString(getTemperature());
+            str_humidity = toString(getHumidity());
+            // printTemperature();
+            // printHumidity();
         };
 
     private:
         float temperature;
         float humidity;
+        String str_temperature;
+        String str_humidity;
 
         static const uint8_t DHTPIN = 15;
         static const uint8_t DHTTYPE = 22;
@@ -53,14 +58,14 @@ class DHTSensor{
         };
 
         void printTemperature(){
-            Serial.print("Temperatura: "); 
-            Serial.print(getTemperature());
+            Serial.print("Temperatura string: "); 
+            Serial.print(str_temperature);
             Serial.println(" °C");
         };
 
         void printHumidity(){
-            Serial.print("Umidade: ");
-            Serial.print(getHumidity());
+            Serial.print("Umidade string: ");
+            Serial.print(str_humidity);
             Serial.println (" %");
         };
         bool isDHTWorking(){
