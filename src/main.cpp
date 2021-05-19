@@ -2,7 +2,7 @@
 #include <MQTT.hpp>
 #include <WifiManager.hpp>
 #include <DHT.hpp>
-
+#include <JsonMaker.hpp>
 
 int last_time = 0;
 
@@ -22,10 +22,18 @@ void loop() {
     reconnectMQTT(client);
   client.loop();
   long now = millis();
-  dhtSensor.dhtLoop();
+  // dhtSensor.dhtLoop();
+  dhtSensor.readHumidity();
+  dhtSensor.readTemperature();
+
   if (now - last_time > 1000){
-      client.publish("/oyafuso/temperature", "oi");
+      char str_temperature[10];
+      char str_humidity[10];
+      sprintf(str_temperature,"%.2fC", dhtSensor.getTemperature());
+      sprintf(str_humidity,"%.2fC", dhtSensor.getHumidity());
+
+      client.publish("/oyafuso/sensors", str_temperature);
+      client.publish("/oyafuso/sensors", str_humidity);
       last_time = now;
   }
-  delay (300);
 }

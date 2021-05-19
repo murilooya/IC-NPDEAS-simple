@@ -32,7 +32,7 @@ void reconnectMQTT(PubSubClient& _client) {
       if (_client.connect(clientId.c_str())) {
         Serial.println("Connected.");
         // inscreva-se no tópico
-        _client.subscribe("/swa/commands");
+        _client.subscribe("/oyafuso/commands");
       }     
   }
 }

@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include "Adafruit_Sensor.h"
 #include "DHT.h"
-#include "JsonMaker.hpp"
+//#include "JsonMaker.hpp"
 
 class DHTSensor{
     public:
@@ -12,30 +12,22 @@ class DHTSensor{
             dht = new DHT(DHTSensor::DHTPIN, DHTSensor::DHTTYPE);
             dhtBegin();
         }; //dht begin
-
-        void dhtLoop(){
-            readTemperature();
-            readHumidity();
+        
+        void readTemperature() {
+            temperature = dht->readTemperature();
             if (!isDHTWorking()) {
                 Serial.println(F("Failed to read from DHT sensor!"));
                 return;
             };
-            str_temperature = toString(getTemperature());
-            str_humidity = toString(getHumidity());
-            // printTemperature();
-            // printHumidity();
         };
 
-    private:
-        float temperature;
-        float humidity;
-        String str_temperature;
-        String str_humidity;
-
-        static const uint8_t DHTPIN = 15;
-        static const uint8_t DHTTYPE = 22;
-
-        DHT* dht;
+        void readHumidity() {
+            humidity = dht->readHumidity();
+            if (!isDHTWorking()) {
+                Serial.println(F("Failed to read from DHT sensor!"));
+                return;
+            };
+        };
 
         float getHumidity() {
             return humidity;
@@ -45,16 +37,43 @@ class DHTSensor{
             return temperature;
         };
 
+       
+        // void dhtLoop(){
+        //     readTemperature();
+        //     readHumidity();
+        //     if (!isDHTWorking()) {
+        //         Serial.println(F("Failed to read from DHT sensor!"));
+        //         return;
+        //     };
+        //     Serial.print ("Umidade: ");
+        //     Serial.println (str_humidity);
+        //     Serial.print ("Temperatura: ");
+        //     Serial.println (str_temperature);
+        // };
+
+        // char* getStringTemperature(){
+        //     sprintf(str_temperature,"%.2fC", getTemperature());
+        //     return this->str_temperature;
+        // }
+        
+        // char* getStringHumidity(){
+        //     sprintf(str_humidity,"%.2fC", getHumidity());
+        //     return this->str_humidity;
+        // }
+
+    private:
+        float temperature;
+        float humidity;
+        char* str_temperature;
+        char* str_humidity;
+
+        static const uint8_t DHTPIN = 15;
+        static const uint8_t DHTTYPE = 22;
+
+        DHT* dht;
+
         void dhtBegin() {
             dht->begin();
-        };
-        
-        void readTemperature() {
-            temperature = dht->readTemperature();
-        };
-
-        void readHumidity() {
-            humidity = dht->readHumidity();
         };
 
         void printTemperature(){

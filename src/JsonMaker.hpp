@@ -3,10 +3,13 @@
 
 #include <Arduino.h>
 #include <string.h>
+#include <stdio.h>
 
-String toString(float _type){
-    String _str = std::to_string(_type);
-    return _str;
+char* toString(float _value){
+    char str_value[16];
+    sprintf(str_value,"%.2fC", _value);
+    
+    return str_value;
 }
 
 
